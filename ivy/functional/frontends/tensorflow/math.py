@@ -9,6 +9,15 @@ from ivy.functional.frontends.tensorflow.func_wrapper import (
 )
 
 
+@with_supported_dtypes(
+    {"2.9.0 and below": ("float16", "float32", "float64", "complex64", "complex128")},
+    "tensorflow",
+)
+@to_ivy_arrays_and_back
+def imag(input, name=None):
+    return ivy.imag(input)
+
+
 @to_ivy_arrays_and_back
 def accumulate_n(inputs, input_type=None, shape=None, dtype=None, name=None):
     return ivy.astype(ivy.sum(ivy.array(inputs)), ivy.int64)
@@ -185,6 +194,11 @@ def log_sigmoid(x, name=None):
 
 
 @to_ivy_arrays_and_back
+def log1p(x, name=None):
+    return ivy.log1p(x)
+
+
+@to_ivy_arrays_and_back
 def logical_and(x, y, name="LogicalAnd"):
     return ivy.logical_and(x, y)
 
@@ -232,6 +246,11 @@ def polyval(coeffs, x, name=None):
 def pow(x, y, name="pow"):
     x, y = check_tensorflow_casting(x, y)
     return ivy.pow(x, y)
+
+
+@to_ivy_arrays_and_back
+def reciprocal(x, name="reciprocal"):
+    return ivy.reciprocal(x)
 
 
 @to_ivy_arrays_and_back
@@ -606,3 +625,14 @@ def xlogy(x, y, name=None):
 @to_ivy_arrays_and_back
 def cosh(x, name=None):
     return ivy.cosh(x)
+
+
+@to_ivy_arrays_and_back
+@with_supported_dtypes(
+    {
+        "2.11.0 and below": ("float32", "float64"),
+    },
+    "tensorflow",
+)
+def zeta(x, q, name=None):
+    return ivy.zeta(x, q)
